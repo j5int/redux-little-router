@@ -13,7 +13,8 @@ type ServerRouterArgs = {
     url: string,
     query: {[key: string]: string}
   },
-  passRouterStateToReducer?: bool
+  passRouterStateToReducer?: bool,
+  immutable?: false
 };
 
 const locationForRequest = request => {
@@ -27,7 +28,8 @@ const locationForRequest = request => {
 export default ({
   routes,
   request,
-  passRouterStateToReducer = false
+  passRouterStateToReducer = false,
+  immutable = false
 }: ServerRouterArgs) => {
   const history = createMemoryHistory();
 
@@ -38,7 +40,8 @@ export default ({
       routes,
       history,
       location,
-      passRouterStateToReducer
+      passRouterStateToReducer,
+      immutable
     }),
     routerMiddleware: routerMiddleware({ history })
   };

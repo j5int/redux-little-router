@@ -111,6 +111,9 @@ const Link = (
   const { router: currentLocation } = router.store.getState();
   const { basename } = currentLocation;
 
+  const state = router.store.getState();
+  const currentLocation = state.get ? state.get('router') : state.router;
+
   const locationDescriptor =
     resolveQueryForLocation({
       linkLocation: normalizeLocation(href),
