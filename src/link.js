@@ -108,11 +108,9 @@ const Link = (
   } = props;
 
   const { router } = context;
-  const { router: currentLocation } = router.store.getState();
-  const { basename } = currentLocation;
-
   const state = router.store.getState();
   const currentLocation = state.get ? state.get('router') : state.router;
+  const { basename } = currentLocation;
 
   const locationDescriptor =
     resolveQueryForLocation({
