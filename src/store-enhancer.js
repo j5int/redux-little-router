@@ -47,18 +47,7 @@ export default ({
       if (typeof immutableObj === 'undefined') {
         return immutableObj;
       }
-      // don't want router object to be  deeply converted via Immutable.fromJS
-      // https://facebook.github.io/immutable-js/docs/#/Map/merge
-      const merge = (acc, idx, obj) => {
-        const keys = Object.keys(obj);
-        if (idx < keys.length) {
-          return merge(acc.set(keys[idx], obj[keys[idx]]), idx + 1, obj);
-        }
-
-        return acc;
-      };
-
-      return merge(immutableObj, 0, obj2);
+      return immutableObj.merge(obj2)
     };
     omit = (immutableObj, props) => {
       if (typeof immutableObj === 'undefined') {

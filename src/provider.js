@@ -35,7 +35,7 @@ class RouterProviderImpl extends Component {
   render() {
     const { store } = this.router;
     const state = store.getState();
-    const routerState = state.get ? state.get('router') : state.router;
+    const routerState = state.get ? state.get('router').toJS() : state.router;
 
     // Ensure that the router props from connect()
     // actually get to the child component(s)
