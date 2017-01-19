@@ -47,15 +47,26 @@ export default ({
       if (typeof immutableObj === 'undefined') {
         return immutableObj;
       }
+      else if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return _assign(immutableObj, obj2);
+      }
       return immutableObj.merge(obj2)
     };
     omit = (immutableObj, props) => {
       if (typeof immutableObj === 'undefined') {
         return immutableObj;
       }
+      else if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return _omit(immutableObj, props);
+      }
       return immutableObj.filter((value, key) => props.indexOf(key) === -1);
     };
-    get = (immutableObj, prop) => immutableObj.get(prop);
+    get = (immutableObj, prop) => {
+      if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return immutableObj[prop];
+      }
+      return immutableObj.get(prop);
+    }
   }
   return (createStore: StoreCreator) => (
     reducer: Reducer,
