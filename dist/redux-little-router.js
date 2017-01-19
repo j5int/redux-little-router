@@ -1477,6 +1477,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
 	var _lodash = __webpack_require__(18);
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
@@ -1531,18 +1533,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    assign = function assign(immutableObj, obj2) {
 	      if (typeof immutableObj === 'undefined') {
 	        return immutableObj;
+	      } else if ((typeof immutableObj === 'undefined' ? 'undefined' : _typeof(immutableObj)) === 'object' && immutableObj.constructor == Object) {
+	        return (0, _lodash2.default)(immutableObj, obj2);
 	      }
 	      return immutableObj.merge(obj2);
 	    };
 	    omit = function omit(immutableObj, props) {
 	      if (typeof immutableObj === 'undefined') {
 	        return immutableObj;
+	      } else if ((typeof immutableObj === 'undefined' ? 'undefined' : _typeof(immutableObj)) === 'object' && immutableObj.constructor == Object) {
+	        return (0, _lodash4.default)(immutableObj, props);
 	      }
 	      return immutableObj.filter(function (value, key) {
 	        return props.indexOf(key) === -1;
 	      });
 	    };
 	    get = function get(immutableObj, prop) {
+	      if ((typeof immutableObj === 'undefined' ? 'undefined' : _typeof(immutableObj)) === 'object' && immutableObj.constructor == Object) {
+	        return immutableObj[prop];
+	      }
 	      return immutableObj.get(prop);
 	    };
 	  }
