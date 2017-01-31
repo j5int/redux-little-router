@@ -9,6 +9,8 @@ import type {
 import type { History } from 'history';
 
 import qs from 'query-string';
+import _assign from 'lodash.assign';
+import _omit from 'lodash.omit';
 
 import { default as matcherFactory } from './create-matcher';
 import attachRouterToReducer from './reducer-enhancer';
@@ -24,7 +26,8 @@ type StoreEnhancerArgs = {
   history: History,
   location: Location,
   createMatcher?: Function,
-  passRouterStateToReducer?: bool
+  passRouterStateToReducer?: bool,
+  immutable?: bool
 };
 
 export default ({
@@ -32,29 +35,60 @@ export default ({
   history,
   location,
   createMatcher = matcherFactory,
-  passRouterStateToReducer = false
+  passRouterStateToReducer = false,
+  immutable = false
 }: StoreEnhancerArgs) => {
   validateRoutes(nestedRoutes);
   const routes = flattenRoutes(nestedRoutes);
-
+  let assign = _assign;
+  let omit = _omit;
+  let get = (obj, prop) => obj[prop];
+  if (immutable === true) {
+    assign = (immutableObj, obj2) => {
+      if (typeof immutableObj === 'undefined') {
+        return immutableObj;
+      }
+      else if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return _assign(immutableObj, obj2);
+      }
+      return immutableObj.merge(obj2)
+    };
+    omit = (immutableObj, props) => {
+      if (typeof immutableObj === 'undefined') {
+        return immutableObj;
+      }
+      else if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return _omit(immutableObj, props);
+      }
+      return immutableObj.filter((value, key) => props.indexOf(key) === -1);
+    };
+    get = (immutableObj, prop) => {
+      if (typeof immutableObj === 'object' && immutableObj.constructor == Object) {
+        return immutableObj[prop];
+      }
+      return immutableObj.get(prop);
+    }
+  }
   return (createStore: StoreCreator) => (
     reducer: Reducer,
     initialState: State,
     enhancer: StoreEnhancer
   ) => {
     const enhancedReducer =
-      attachRouterToReducer(passRouterStateToReducer)(reducer);
+      attachRouterToReducer(passRouterStateToReducer, assign, omit, get)(reducer);
 
     const matchRoute = createMatcher(routes);
     const matchWildcardRoute = createMatcher(routes, true);
 
-    const initialStateWithRouter = {
-      ...initialState,
-      router: {
-        ...location,
-        ...matchRoute(location.pathname)
+    const initialStateWithRouter = assign(
+      initialState,
+      {
+        router: {
+          ...location,
+          ...matchRoute(location.pathname)
+        }
       }
-    };
+    );
 
     const store = createStore(
       enhancedReducer,
