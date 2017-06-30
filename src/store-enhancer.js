@@ -84,7 +84,7 @@ export default ({
 
     let initialRouterState = {
       ...location,
-      ...matchRoute(location.pathname)
+      ...matchRoute(location.basename ? location.pathname.replace(location.basename, ""): location.pathname)
     }
     if (immutable === true) {
       initialRouterState = Immutable.fromJS(initialRouterState)
