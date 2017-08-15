@@ -6,6 +6,8 @@ import type {
   State
 } from 'redux';
 
+import Immutable from 'immutable'
+
 import type { History } from 'history';
 
 import qs from 'query-string';
@@ -80,13 +82,18 @@ export default ({
     const matchRoute = createMatcher(routes);
     const matchWildcardRoute = createMatcher(routes, true);
 
+    let initialRouterState = {
+      ...location,
+      ...matchRoute(location.basename ? location.pathname.replace(location.basename, ""): location.pathname)
+    }
+    if (immutable === true) {
+      initialRouterState = Immutable.fromJS(initialRouterState)
+    }
+
     const initialStateWithRouter = assign(
       initialState,
       {
-        router: {
-          ...location,
-          ...matchRoute(location.pathname)
-        }
+        router: initialRouterState
       }
     );
 

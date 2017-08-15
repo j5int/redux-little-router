@@ -1,6 +1,6 @@
 {
   "name": "redux-little-router",
-  "version": "12.1.2-j5-1",
+  "version": "12.1.2-j5-3",
   "description": "A barebones routing solution for Redux applications.",
   "main": "lib/index.js",
   "scripts": {
@@ -45,6 +45,7 @@
   "homepage": "https://github.com/FormidableLabs/redux-little-router#readme",
   "dependencies": {
     "history": "^4.4.1",
+    "immutable": "^3.8.1",
     "lodash.assign": "^4.2.0",
     "lodash.omit": "^4.2.0",
     "query-string": "^4.2.3",
