@@ -26,7 +26,7 @@ export default ({ history, getState }) => () => next => action => {
     history.goForward();
     break;
   case GO_BACK_TO_CHECKPOINT:
-    const checkPointCounter = getState().get(checkPointCounter);
+    const checkPointCounter = getState().get('checkPointCounter');
     history.go(-1*checkPointCounter);
     break;
   }
