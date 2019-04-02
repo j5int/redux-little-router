@@ -24,8 +24,6 @@ export default ({ history }) => () => next => action => {
   case GO_FORWARD:
     history.goForward();
     break;
-  default:
-    // ...but we want to leave all events we don't care about undisturbed
-    return next(action);
   }
+  return next(action);
 };
