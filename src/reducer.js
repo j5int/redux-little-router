@@ -41,20 +41,23 @@ export default (state: ?Location | Object = {}, action: Action) => {
       } : nextState;
     }
   }
-  if (action.payload.checkPoint){
-    return state.set('checkPointCounter', 1)
-  }
-  let checkPointCounter = state.get('checkPointCounter')
-  if (checkPointCounter !== undefined){
-    if (action.type === GO_BACK){
-      return state.set('checkPointCounter', checkPointCounter-1)
+  if (state.get){
+    if (action.payload && action.payload.checkPoint){
+      return state.set('checkPointCounter', 1)
     }
-    if (action.type === PUSH){
-      return state.set('checkPointCounter', checkPointCounter+1)
+    let checkPointCounter = state.get('checkPointCounter')
+    if (checkPointCounter !== undefined){
+      if (action.type === GO_BACK){
+        return state.set('checkPointCounter', checkPointCounter-1)
+      }
+      if (action.type === PUSH){
+        return state.set('checkPointCounter', checkPointCounter+1)
+      }
+    }
+    if (action.type === GO_BACK_TO_CHECKPOINT){
+      return state.delete('checkPointCounter')
     }
   }
-  if (action.type === GO_BACK_TO_CHECKPOINT){
-    return state.delete('checkPointCounter')
-  }
+
   return state;
 };
