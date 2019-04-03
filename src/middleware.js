@@ -26,7 +26,7 @@ export default ({ history }) => (store) => next => action => {
     history.goForward();
     break;
   case GO_BACK_TO_CHECKPOINT:
-    const checkPointCounter = store.getState().getIn(['router', 'checkPointCounter']);
+    const checkPointCounter = store.getState().getIn(['router', 'checkPointCounter'], 0);
     history.go(-1*checkPointCounter);
     break;
   }
