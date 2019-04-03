@@ -6,7 +6,7 @@ import {
   GO_BACK_TO_CHECKPOINT
 } from './action-types';
 
-export default ({ history, getState }) => () => next => action => {
+export default ({ history }) => (store) => next => action => {
   switch (action.type) {
   case PUSH:
     history.push(action.payload.path ? action.payload.path : action.payload);
@@ -26,7 +26,7 @@ export default ({ history, getState }) => () => next => action => {
     history.goForward();
     break;
   case GO_BACK_TO_CHECKPOINT:
-    const checkPointCounter = getState().get('checkPointCounter');
+    const checkPointCounter = store.getState().getIn(['router', 'checkPointCounter']);
     history.go(-1*checkPointCounter);
     break;
   }
