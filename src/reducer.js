@@ -24,7 +24,11 @@ export default (state: ?Location | Object = {}, action: Action) => {
     if (state) {
       if (state.get) {
         // state is an immutable object - use its constructor to make the next state
-        return state.constructor({previous: state.delete("previous"), basename: state.get("basename")}).merge(action.payload);
+        let base = {previous: state.delete("previous"), basename: state.get("basename")}
+        if (state.get('checkPointCounter') !== undefined){
+          base['checkPointCounter'] = state.get('checkPointCounter')
+        }
+        return state.constructor(base).merge(action.payload);
       }
       // eslint-disable-next-line no-unused-vars
       const { previous, ...oldState } = state;
