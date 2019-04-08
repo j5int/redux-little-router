@@ -1,6 +1,6 @@
 {
   "name": "redux-little-router",
-  "version": "12.1.2-j5int.4",
+  "version": "12.1.2-j5int.5",
   "description": "A barebones routing solution for Redux applications.",
   "main": "lib/index.js",
   "scripts": {
