@@ -2,13 +2,14 @@
 
 import {
   PUSH, REPLACE, GO,
-  GO_BACK, GO_FORWARD
+  GO_BACK, GO_FORWARD,
+  GO_BACK_TO_CHECKPOINT
 } from './action-types';
 
-export default ({ history }) => () => next => action => {
+export default ({ history }) => (store) => next => action => {
   switch (action.type) {
   case PUSH:
-    history.push(action.payload);
+    history.push(action.payload.path ? action.payload.path : action.payload);
     // No return, no next() here
     // We stop all history events from progressing further through the dispatch chain...
     break;
@@ -24,8 +25,10 @@ export default ({ history }) => () => next => action => {
   case GO_FORWARD:
     history.goForward();
     break;
-  default:
-    // ...but we want to leave all events we don't care about undisturbed
-    return next(action);
+  case GO_BACK_TO_CHECKPOINT:
+    const checkPointCounter = store.getState().getIn(['router', 'checkPointCounter'], 0);
+    history.go(-1*checkPointCounter);
+    break;
   }
+  return next(action);
 };

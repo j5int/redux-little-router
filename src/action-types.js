@@ -5,3 +5,4 @@ export const REPLACE = 'ROUTER_REPLACE';
 export const GO = 'ROUTER_GO';
 export const GO_BACK = 'ROUTER_GO_BACK';
 export const GO_FORWARD = 'ROUTER_GO_FORWARD';
+export const GO_BACK_TO_CHECKPOINT = 'ROUTER_GO_BACK_TO_CHECKPOINT';

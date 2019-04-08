@@ -19,7 +19,8 @@ import {
   REPLACE,
   GO,
   GO_FORWARD,
-  GO_BACK
+  GO_BACK,
+  GO_BACK_TO_CHECKPOINT
 } from './action-types';
 
 const Fragment = AbsoluteFragment;
@@ -48,6 +49,7 @@ export {
   GO,
   GO_FORWARD,
   GO_BACK,
+  GO_BACK_TO_CHECKPOINT,
 
   // Low-level Redux utilities
   routerReducer,
